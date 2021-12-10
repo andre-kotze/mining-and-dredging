@@ -1,0 +1,57 @@
+El_Recon_v2.2.0
+# compare series using zip
+
+El_Recon_v2.1.3
+-open report in browser
+-link available to view log
+-Unsorteds dropped in SL vs SR
+-report only if DFs not empty, and discrepancies found
+
+EL_RECON_DOS
+-gui
+-use indices to match samples
+-convert to stone-by-stone and reconcile
+-progbar
+
+ToDo:
+20201128:
+-for comp w/ SL, use Seq as index?
+-for comp w/ Audits, go per stone?
+
+SL vs DRS:
+-print Seq, SID, error in columns
+-compare series?
+
+SL vs SR:
+-drop Audits for SL vs SR
+-iterate through SR, compiling lists per sample until next sample reached
+-SR can then be reconciled with DRS too
+
+
+DRS vs SR:
+-compare stone by stone, inc. Audits/Sterilization
+
+
+
+DepositShit:
+-read SR and ffill
+-drop negs
+-filter by DEP#
+-export csv
+
+Report on Admin and TT improvements thanks to Python, AKO, FDT
+-TTanalysis
+-TTplot
+-TTcheck
+
+-ScanRename
+-PhotoRename
+
+-PlotProfile
+-DP from VR
+-El Recon
+
+Time saved
+Keystrokes saved
+Increased accuracy
+Cleaner data
