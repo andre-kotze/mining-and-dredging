@@ -1,0 +1,27 @@
+TTanalysis_v1.0.5
+-handle invalid lithologies
+-use main screenlog
+
+TTanalysis_v1.0.3
+-TRIPLE check to not delete screenlogs
+-fix list compare/check
+-allow running with mismatched lists
+-option to delete hole data on completion
+-fix str in prompt
+
+TTanalysis_v1.0.2
+-default to SL in folder, else ask concession
+-helptext
+
+TTanalysis_v1.0.1
+-continue prompts
+-backup/local settings
+-check if screenlog present
+-validate filter date input
+-option to delete screenlog on completion
+
+TTanalysis_v1.0.0
+-combines AKO_Screenlog_to_Minesense and Minesense2 
+-bypasses Minesense entirely
+-trend analysis is improved i.t.o. accuracy and speed (drill depth precision, hole cleaning, ROP in FW)
+-outputs csv that matches Tooltrend sheet in Geotech Datasheet xlsb

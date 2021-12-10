@@ -1,0 +1,5 @@
+ACTIVE_SCREENLOG
+\\Geo-capture\share\2. BPT\2C\Screenlog_BPT127_2C.XLSB
+
+ACTIVE_DIRECTORY
+C:\Users\Geo\MineSenseAnalysis

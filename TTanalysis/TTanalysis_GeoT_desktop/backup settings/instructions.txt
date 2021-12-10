@@ -1,0 +1,7 @@
+ Analyse tooltrend xlsx files on a daily basis
+ 1. Copy the day's tooltrend files to C:/Users/Geo/Desktop/TTanalysis/HoleData/
+ 2. Run TTanalysis
+ 3. Number of samples and names (tooltrend files and screenlog) must match
+ 4. Enter the filter date for the screenlog
+ 5. Open output csv
+ 6. Copy records to Geotech Datasheet xlsx

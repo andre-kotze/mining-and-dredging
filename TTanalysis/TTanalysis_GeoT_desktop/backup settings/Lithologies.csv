@@ -1,0 +1,117 @@
+CODE,LITHOLOGY
+AG,Agate
+BAS,Basalt
+BIF,Banded Iron Formation
+BISCH,Biotite Schist
+BLDG,Boulder Gravel
+BLDRBL,Boulder Rubble
+BRC,Breccia
+BRK,Beach Rock
+BS,Birdseed
+CaCO,Carbonate
+CAL,Calcrete
+CASCH,Calc-Schist
+CBLG,Cobble Gravel
+CBLGRBL,Cobble Gravel Rubble
+CBLRBL,Cobble Rubble
+CBLS,Cobbly Sand
+CHAL,Chalcedony
+CHT,Chert
+CNG,Conglomerate
+COQ,Coquina
+CY,Clay
+CYG,Clayey Gravel
+CYRBL,Clayey Rubble
+CYS,Clayey Sand
+CYST,Claystone
+DIA,Diamictite
+DOL,Dolomite
+DRT,Dolorite
+EP,Epidote/Epidosite
+EVP,Evaporite
+FECT,Ferricrete
+FEST,Ironstone
+FSP,Feldspar
+G,Gravel
+GA,Garnet
+GNS,Gneiss
+GRAN,Granite
+GRBL,Gravelly Rubble
+GRST,Gritstone
+GRT,Grit
+GS,Gravelly Sand
+GSCY,Gravelly Sandy Clay
+GSH,Gravelly Shell
+GYWK,Greywacke
+INTR,Intrusive
+JAS,Jasper
+LIG,Lignite
+LST,Limestone
+M,Mud
+MBL,Marble
+MCY,Marine Clay
+MISCH,Mica-Schist
+MS,Muddy Sand
+MSH,Muddy Shell
+MSST,Marine Sandstone
+MST,Mudstone
+NA,Not available
+PB,Petrified Bone
+PBLG,Pebble Gravel
+PBLRBL,Pebbly Rubble
+PBLS,Pebbly Sand
+PBLSHS,Pebbly Shelly Sand
+PBLSST,Pebbly Sandstone
+PHS,Phosphorite/Phosphatics
+PHY,Phyllite
+PW,Petrified Wood
+PYR,Pyrite
+QZ,Quartz
+QZMISCH,Quartz-mica Schist
+QZSCH,Quartz Schist
+QZT,Quartzite
+RBL,Rubble
+RBLG,Rubbly Gravel
+RBLS,Rubbly Sand
+RBLSH,Rubbly Shell
+RBLSHS,Rubbly Shelly Sand
+RK,Riebeckite
+S,Sand
+SAP,Saprolite
+SAPRK,Saprock
+SCH,Schist
+SCY,Sandy Clay
+SG,Sandy Gravel
+SH,Shell
+SHBS,Shelly Birdseed
+SHCNG,Shelly Conglomerate
+SHCY,Shelly Clay
+SHG,Shelly Gravel
+SHGRBL,Shelly Gravelly Rubble
+SHGRT,Shelly Grit
+SHGS,Shelly Gravelly Sand
+SHM,Shelly Mud
+SHMS,Shelly Muddy Sand
+SHPBLS,Shelly pebbly Sand
+SHRBL,Shelly Rubble
+SHRBLG,Shelly Rubbly Gravel
+SHRBLS,Shelly Rubbly Sand
+SHS,Shelly Sand
+SHSST,Shelly Sandstone
+SID,Siderite
+SIW,Silicified Wood
+SLCT,Silcrete
+SLT,Silt
+SLTST,Siltstone
+SRBL,Sandy Rubble
+SST,Sandstone
+SSTRBL,Sandstone Rubble
+TCY,Terrigenous Clay
+TLNGS,Tailings
+UNK,Unknown
+VF,Ventifact
+VOLC,Volcanics
+VQ,Vein Quartz
+WT,Worm Tubes
+ZEO,Zeolite
+MLST,Meta Limestone
