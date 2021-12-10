@@ -1,0 +1,303 @@
+/* top section with app title */
+/* 20210130 alphabetise*/
+
+/* ELEMENTS */
+body{
+    background-color: #323232;
+}
+/* CLASSES */
+.actionbutton{
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
+    transition: all 0.1s;
+    border-radius: 8px;
+    border: none;
+    color: whitesmoke;
+    margin: 10px;
+    border: 2px solid transparent;
+}
+.actionbutton:hover{
+    transform: translateY(-2px);
+    box-shadow: 0px 6px #666;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.actionbutton:active{
+    transform: translateY(4px);
+    box-shadow: 0 3px #333;
+}
+.actionbutton:focus{
+    outline: none;
+}
+.bignumber{
+    font-size: 50PX;
+    font-weight: bold;
+    margin: 0;
+}
+.bottomlinks{
+    color: grey !important;
+    font-weight: bold;
+    font-size: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    transition: all 0.25s;
+    border-radius: 5px;
+    border: 2px solid grey;
+    cursor: pointer;
+}
+.bottomlinks:hover{
+    text-decoration: none !important;
+    border-radius: 5px;
+    border: 2px solid rgb(0, 170, 212);
+}
+.concessionselect{
+    text-align: center;
+}
+.container{
+    background-color: #323232;
+}
+.detect{
+    margin: none;
+}
+.field{
+    margin: 10px;
+    display: block;
+    width: 100%;
+    border-radius: 5px;
+    color: grey;
+    border: 1px solid grey;
+    padding: 3px;
+}
+.field:focus{
+    outline: none;
+}
+.greycard{
+    height: 250px;
+    background-color: #282828;
+    margin: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    overflow: auto;
+}
+.homecols{
+    background-color: #323232;
+    overflow: auto;
+}
+.hr{
+    border: 0.5px solid lightgray;
+}
+.inputfields{
+    text-align: left !important;
+}
+.instruction{
+    text-align: left;
+}
+.label{
+    margin: 10px;
+    width: min-content;
+    padding-top: 4px;
+}
+.table{
+    border: 0.5;
+    width: 100%;
+    font-size: 14;
+    text-align: center;
+    color: grey;
+}
+.tablehead{
+    width: 100%;
+}
+.tablehr{
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border: 0.5px solid lightgray;
+}
+
+
+/* IDs */
+#activateadd{
+    background-color: green;
+}
+#activateremove{
+    background-color: red;
+}
+#addconcession{
+    background-color: white;
+    display: none;
+    margin: 10%;
+    border: 2px solid green;
+    color: green;
+    font-weight: bold;
+}
+#addconcession:hover{
+    background-color: green;
+    color: white;
+}
+#addconcessionname{
+    display: none;
+}
+#addconcessionpath{
+    display: none;
+}
+#addremovebutton{
+    display: none;
+    margin: 10px;
+    border: 1px solid grey;
+}
+#alert {
+    display: none;
+    padding: 20px;
+    background-color: #05a000;
+    color: white;
+    margin-bottom: 15px;
+}
+#cadd{
+    background-color: darkgreen;
+}
+#cedit{
+    background-color: darkblue;
+}
+#cremove{
+    background-color: darkred;
+    float: left;
+}
+#ctable{
+    width: 100%;
+}
+#currentsl{
+    width: auto;
+}
+#detect{
+    background-color: darkblue;
+}
+#errormessage{
+    display: none;
+}
+#imgsrc{
+    width: 80%;
+}
+#imgtitle{
+    color: grey;
+    margin-bottom: 15px;;
+}
+#instructionheader{
+    color: grey;
+    background-color: #323232;
+    font-weight: bold;
+    border: 2px solid grey;
+}
+#instructionheader:hover{
+    padding-left: 15px;
+    padding-right: 15px;
+    box-shadow: none;
+    cursor: default;
+}
+#links{
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    border-top: 2px solid grey;
+    padding: 25px;
+}
+#listcontainer{
+    border-radius: 10px;
+    text-align: center;
+}
+#listfiles{
+    margin: 10px;
+}
+#mainbody{
+    text-align: center;
+    border: 2px solid rgb(0, 170, 212);
+    border-radius: 10px;
+    color: grey;
+    padding: 25px;
+}
+#mainheader{
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid grey;
+    padding: 25px;
+    letter-spacing: 5px;
+    color: grey;
+}
+#maintitle{
+    color: grey;
+}
+#maketable{
+    background-color: rgb(0, 170, 212);
+}
+#message{
+    padding-bottom: 15px;
+    display: none;
+}
+#removeconcession{
+    background-color: white;
+    display: none;
+    margin: 10%;
+    border: 2px solid red;
+    color: red;
+    font-weight: bold;
+}
+#removeconcession:hover{
+    background-color: red;
+    color: white;
+}
+#removeconcessionname{
+    display: none;
+    color: grey;
+}
+#renamebutton{
+    background-color: darkred;
+}
+#renamecard{
+    display: none;
+    height: 500px;
+}
+#selectconcession{
+    background-color: white;
+    display: none;
+    margin: 10%;
+    border: 2px solid red;
+    color: red;
+    font-weight: bold;
+}
+#selectconcession:hover{
+    background-color: red;
+    color: white;
+}
+#selectconcessionname{
+    display: none;
+    color: grey;
+}
+#sortbutton{
+    background-color: darkgreen;
+}
+#sorttable{
+    width: 100%;
+}
+#to_add_input{
+    display: none;
+    margin: 10px;
+}
+#toremove{
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

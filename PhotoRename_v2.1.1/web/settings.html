@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        Application Settings
+    </title>
+    <link href="bootstrap-4.4.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link rel = "icon" href="img/IMDHicon_v2_nobg.ico" type="image/x-icon">
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="jquery-3.5.0.min.js"></script>
+    <script type="text/javascript" src="bootstrap-4.4.1-dist\js\bootstrap.min.js"></script>
+    <script type="text/javascript" src="/eel.js"></script>
+</head>
+<body onload="gettable()">
+    <div class="container" id="mainheader">
+        <h1>
+            SETTINGS
+        </h1>
+    </div>
+    <div class="container" id="mainbody">
+        <table class="tablehead">
+            <th style="width: 10%">Concession</th>
+            <th style="width: 30%">Path to Photos</th>
+            <th style="width: 60%">Path to Screenlog</th>
+        </table>
+        <hr class="tablehr">
+        <table id="ctable"></table>
+        <div class="row">
+            <div id="to_add_input">
+                <lable for="to_add" class="label">Concession Name:</lable>
+                <input type="text" id="to_add">
+            </div>
+            <div class="col-1">
+                <button class="actionbutton" type="button" id="cadd" onclick="get_new_c()">Add</button>
+            </div>
+            <div>
+                <select class="field" id="toremove"></select>
+            </div>
+            <div class="col-2">
+                <button class="actionbutton" type="button" id="cremove" onclick="markremove()">Remove</button>
+            </div>
+        </div>
+    </div>
+    <div class="container" id="links">
+        <span>
+            <a class="bottomlinks" onclick="movehome()">Home</a>
+        </span>
+        <span>
+            <a class="bottomlinks" onclick="moveabout()">About</a>
+        </span>
+        <span>
+            <a class="bottomlinks" onclick="quitprogram()">Exit</a>
+        </span>
+    </div>
+</body>
+</html>

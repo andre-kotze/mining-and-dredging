@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        IMDH Sample Photo Rename v2.0.0
+    </title>
+    <link href="bootstrap-4.4.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link rel = "icon" href="img/IMDHicon_v2_nobg.ico" type="image/x-icon">
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="jquery-3.5.0.min.js"></script>
+    <script type="text/javascript" src="bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/eel.js"></script>
+</head>
+
+<body onload="list_concessions()">
+    <div class="container" id="mainheader">
+        <h1 id="maintitle">
+            <span>
+                <img src="img/IMDH_logo.png">
+                IMDH SAMPLE PHOTO RENAME
+            </span>
+        </h1>
+    </div>
+    <div class="container" id="mainbody">
+        <div id="listcontainer" class="container">
+            <div class="row">
+                <div class="col homecols">
+                    <button class="actionbutton" id="instructionheader">INSTRUCTIONS</button>
+                    <div class="greycard" id="instructionpanel">
+                        <p class="instruction">
+                            Remove MISC, ENV and GEOT photos<br>
+                            Remove unusable photos (blurred, over/under-exposed)<br>
+                            Remove duplicate and nameboard photos</p>
+                        <p class="instruction">1. Click on "Detect Photos"</p>
+                        <p class="instruction">2. Click on "Sort Photos"</p>
+                        <p class="instruction">3. Click on "Rename Photos"</p>
+                    </div>
+                </div>
+                <div class="col homecols">
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="currentconc" class="label" id="concessionlabel">CONCESSION:</label>
+                        </div>
+                        <div class="col-3">
+                            <select class="field" id="currentconc" name="currentconcession"></select>
+                        </div>
+                        <div class="col-sm">
+                            <button class="actionbutton" type="button" id="detect" onclick="detect()">Detect Files</button>
+                        </div>
+                    </div>
+                    <div class="greycard">
+                        <p style="margin: 0">Photos detected:</p>
+                        <p class="bignumber" id="num_detected">-</p>
+                        <hr class="hr">
+                        <p id="currentpath"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="listcontainer" class="container">
+            <div class="row">
+                <div class="col homecols">
+                    <div class="row">
+                        <div class="col-2">
+                            <label for="currentsl" class="label" id="screenloglabel">SCREENLOG:</label>
+                        </div>
+                        <div class="col-7">
+                            <label class="label" id="currentsl"></label>
+                        </div>
+                        <div class="col-3">
+                            <button class="actionbutton" type="button" id="sortbutton" onclick="sort()">Sort Photos</button>
+                        </div>
+                    </div>
+                    <div class="greycard">
+                        <table class="tablehead">
+                            <th style="width: 10%">Seq</th>
+                            <th style="width: 15%">Sample_ID</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th style="width: 10%">Count</th>
+                            <th style="width: 10%">SL Y/N</th>
+                        </table>
+                        <hr class="tablehr">
+                        <table id="sorttable"></table>
+                        <p id="numbersorted">No photos sorted</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="listcontainer" class="container">
+            <div class="row">
+                <div class="col homecols">
+                    <button class="actionbutton" type="button" id="renamebutton" onclick="rename()">Rename Photos</button>
+                    <div class="greycard" id="renamecard">
+                        <div class="row">
+                            <div class="col-3"></div>
+                            <div class="col-3">
+                                <p style="margin: 0">Photos renamed:</p>
+                                <p class="bignumber" id="numberrenamed">0</p>
+                            </div>
+                            <div class="col-3">
+                                <p style="margin: 0">Nameboards created:</p>
+                                <p class="bignumber" id="numbergenned">0</p>
+                            </div>
+                            <div class="col-3"></div>
+                        </div>
+                        <hr style="border: 0.5px solid lightgrey">
+                        <p id="renamedlog">No photos renamed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" id="links">
+        <span>
+            <a class="bottomlinks" onclick="moveabout()">About</a>
+        </span>
+        <span>
+            <a class="bottomlinks" onclick="movesettings()">Settings</a>
+        </span>
+        <span>
+            <a class="bottomlinks" onclick="quitprogram()">Exit</a>
+        </span>
+    </div>
+</body>
+</html>
