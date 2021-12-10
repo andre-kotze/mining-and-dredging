@@ -1,0 +1,8 @@
+To Do
+-detect 00:00
+-compare times
+
+v1
+-first working version
+-checks SIDs
+-checks holedata
