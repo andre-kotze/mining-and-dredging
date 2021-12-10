@@ -1,0 +1,5 @@
+TIFL v1.1
+-handle improper formatting/mismatched properties
+
+TIFL v1
+-first working version
