@@ -1,0 +1,216 @@
+/* top section with app title */
+/* 20210130 alphabetise*/
+
+/* ELEMENTS */
+body{
+    background-color: rgb(40, 20, 20);
+}
+/* CLASSES */
+.actionbutton{
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
+    transition: all 0.1s;
+    border-radius: 8px;
+    border: none;
+    color: whitesmoke;
+    margin: 10px;
+    border: 2px solid transparent;
+    background-color: black;
+}
+.actionbutton:hover{
+    transform: translateY(-2px);
+    box-shadow: 0px 6px #666;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.actionbutton:active{
+    transform: translateY(4px);
+    box-shadow: 0 3px #333;
+}
+.actionbutton:focus{
+    outline: none;
+}
+.bignumber{
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0;
+}
+.bottomlinks{
+    color: grey !important;
+    font-weight: bold;
+    font-size: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    transition: all 0.25s;
+    border-radius: 5px;
+    border: 2px solid black;
+    cursor: pointer;
+}
+.bottomlinks:hover{
+    text-decoration: none;
+    border-radius: 5px;
+    border: 2px solid grey;
+}
+.container{
+    background-color: rgb(40, 20, 20);
+}
+.detect{
+    margin: none;
+}
+.field{
+    margin: 10px;
+    display: block;
+    width: 100%;
+    border-radius: 5px;
+    color: grey;
+    border: 1px solid grey;
+    padding: 3px;
+}
+.field:focus{
+    outline: none;
+}
+.greycard{
+    height: 320px;
+    background-color: black;
+    margin: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    overflow: auto;
+}
+.homecols{
+    background-color: rgb(59, 21, 21);
+    overflow: auto;
+}
+.hr{
+    border: 0.5px solid gray;
+}
+.instruction{
+    text-align: left;
+}
+.label{
+    margin: 10px;
+    width: min-content;
+    padding-top: 4px;
+}
+.table{
+    border: 0.5;
+    width: 100%;
+    font-size: 14;
+    text-align: center;
+    color: grey;
+}
+.tablehead{
+    width: 100%;
+    color: black;
+}
+.hr{
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border: 0.5px solid rgb(40, 20, 20);
+}
+
+
+/* IDs */
+#cadd{
+    background-color: green;
+}
+#cremove{
+    background-color: red;
+    float: left;
+}
+#ctable{
+    width: 100%;
+}
+#instructionheader{
+    color: black;
+    background-color: gray;
+    font-weight: bold;
+    border: 2px solid grey;
+}
+#instructionheader:hover{
+    box-shadow: none;
+    cursor: default;
+}
+#links{
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    border-top: 2px solid grey;
+    padding: 25px;
+}
+#listcontainer{
+    border-radius: 10px;
+    text-align: center;
+}
+#mainbody{
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 10px;
+    color: grey;
+    padding: 25px;
+    background-color: rgb(59, 21, 21);
+}
+#mainheader{
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid grey;
+    padding: 25px;
+    letter-spacing: 5px;
+    color: gray;
+}
+#progbar{
+    display: none;
+    float: left;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: rgb(40, 20, 20);
+    border: 2px solid transparent;
+    z-index: 3;
+    width: 0%;
+    height: 8px;
+    margin: 4px;
+}
+#progbg{
+    display: none;
+    background-color: black;
+    height: 16px;
+    width: 100%;
+    border-radius: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+#progdiv{
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 50px;
+}
+#proglabel{
+    display: none;
+    text-align: left;
+    width: 80px;
+}
+#to_add_input{
+    display: none;
+    margin: 10px;
+}
+#toremove{
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

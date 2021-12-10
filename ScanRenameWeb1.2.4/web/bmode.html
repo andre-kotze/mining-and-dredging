@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        IMDH ScanRename BRUTAL
+    </title>
+    <link href="bootstrap-4.4.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bmodestyle.css" rel="stylesheet">
+    <link rel = "icon" href="img/IMDHicon_v2_nobg.ico" type="image/x-icon">
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="jquery-3.5.0.min.js"></script>
+    <script type="text/javascript" src="bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/eel.js"></script>
+    <script type="text/javascript">
+        eel.expose(jupdateprog);
+        function jupdateprog(perc){
+            document.getElementById("progbar").style.width = perc;
+            console.log(perc)
+        }
+        </script>
+</head>
+<body onload="refresh_concessions()">
+    <div class="container" id="mainheader">
+        <h1>
+            <span>
+                SCAN RENAME BRUTAL MODE
+            </span>
+        </h1>
+    </div>
+    <div class="container" id="mainbody">
+        <div id="listcontainer" class="container">
+            <div class="row">
+                <div class="col-lg-3 homecols">
+                    <button class="actionbutton" id="instructionheader">INSTRUCTIONS</button>
+                    <div class="greycard" id="instructionpanel">
+                        <p class="instruction">
+                            Brutal Mode will use 1700+ image processing filters to read damaged, distorted or otherwise compromised QRcodes<br>
+                            <br>ALL FILES MUST HAVE QR CODES</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 homecols">
+                    <button class="actionbutton" type="button" id="detect" onclick='detect("black")'>DETECT!</button>
+                    <div class="greycard">
+                        <p style="margin: 0">Files detected:</p>
+                        <p class="bignumber" id="numfound">-</p>
+                        <hr class="hr">
+                        <p id="foundfiles">No files detected</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 homecols">
+                    <div id="progdiv">
+                        <span>
+                            <button class="actionbutton" type="button" id="rename" onclick='brutalrename()'>RENAME!</button>
+                        </span>
+                        <span id="proglabel">Renaming...</span>
+                        <span id="progbg">
+                            <span id="progbar"></span>
+                        </span>
+                    </div>
+                    
+                    <div class="greycard">
+                        <p style="margin: 0">Files renamed:</p>
+                        <p class="bignumber" id="numrenamed">-</p>
+                        <hr class="hr">
+                        <p id="renamedfiles">No files renamed</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 homecols">
+                    <button class="actionbutton" type="button" id="move" onclick='move("black")'>MOVE!</button>
+                    <div class="greycard">
+                        <p style="margin: 0">Files moved:</p>
+                        <p class="bignumber" id="nummoved">-</p>
+                        <hr class="hr">
+                        <p id="movedfiles">No files moved</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container" id="links">
+        <span>
+            <a class="bottomlinks" onclick="movehome()">Home</a>
+        </span>
+        <span>
+            <a class="bottomlinks" onclick="quitprogram()">Exit</a>
+        </span>
+    </div>
+
+</body>
+</html>
