@@ -30,7 +30,7 @@ Drilling Program Star: takes a drilling program .xlsx spreadsheet as input, and 
 ![TIFL logo](TIFL/icon.ico) 
 ### TIFL
 
-![El_Recon logo](EL_Recon/EL_recon.png) 
+![El_Recon logo](El_Recon/EL_recon.png) 
 ### El Recon
 
 ## Mining
