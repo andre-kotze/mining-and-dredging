@@ -1,6 +1,8 @@
 # mining-and-dredging
+<hr>
 
 ## Sampling and Exploration
+<hr>
 
 <img alt="DPstar logo" src="/DPstar/icon.ico" height="64px">
 ### DPstar
@@ -24,7 +26,7 @@ Drilling Program Star: takes a drilling program .xlsx spreadsheet as input, and 
 <img alt="TTP logo" src="/TTplot/icon.ico" height="64px">
 ### TTplot
 
-
+<hr>
 ### DepositShit
 
 <img alt="TIFL logo" src="/TIFL/icon.ico" height="64px">
@@ -33,5 +35,8 @@ Drilling Program Star: takes a drilling program .xlsx spreadsheet as input, and 
 <img alt="El_Recon logo" src="/EL_Recon/EL_Recon.png" height="64px">
 ### El Recon
 
+<hr>
 ## Mining
+
+<hr>
 ### DoYouMined
