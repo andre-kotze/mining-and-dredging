@@ -2,35 +2,35 @@
 
 ## Sampling and Exploration
 
-![DPstar logo](DPstar/icon.ico) 
+<img alt="DPstar logo" src="/DPstar/icon.ico" height="64px">
 ### DPstar
 
 Drilling Program Star: takes a drilling program .xlsx spreadsheet as input, and generates data sources for logsheet print merging
 
 
-![SR logo](ScanRenameWeb/QR_icon.ico) 
+<img alt="SR logo" src="/ScanRenameWeb/QR_icon.ico" height="64px">
 ### ScanRename
 
 
-![PR logo](PhotoRename/web/img/IMDHicon_v2_nobg.ico) 
+<img alt="PR logo" src="/PhotoRename/web/img/IMDHicon_v2_nobg.ico" height="64px">
 ### PhotoRename
 
-![CT logo](CoolTontrol/icon2.ico) 
+<img alt="CT logo" src="/CoolTontrol/icon2.ico" height="64px">
 ### CoolTontrol
 
-![TTA logo](TTanalysis/icon.ico) 
+<img alt="TTA logo" src="/TTanalysis/icon.ico" height="64px">
 ### TTanalysis
 
-![TTP logo](TTplot/icon.ico) 
+<img alt="TTP logo" src="/TTplot/icon.ico" height="64px">
 ### TTplot
 
 
 ### DepositShit
 
-![TIFL logo](TIFL/icon.ico) 
+<img alt="TIFL logo" src="/TIFL/icon.ico" height="64px">
 ### TIFL
 
-![El_Recon logo](EL_Recon/EL_Recon.png) 
+<img alt="El_Recon logo" src="/EL_Recon/EL_Recon.png" height="64px">
 ### El Recon
 
 ## Mining

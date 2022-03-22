@@ -1,0 +1,453 @@
+# === AKO update === v1.2.1
+#. . . . 1 . . . . 2 . . . . 3 . . . . 4 . . . . 5 . . . . 6 . . . . 7 . . . . 8
+import numpy as np
+import pandas as pd
+from bokeh.plotting import figure, curdoc
+from bokeh.layouts import layout
+from bokeh.io import export_png, curdoc
+from bokeh.models import (
+    Range1d, 
+    LinearAxis, 
+    Label, 
+    Span, 
+    ColumnDataSource, 
+    ImageURL, 
+    SingleIntervalTicker
+)
+import os
+import datetime as dt
+
+moving_average = 5 # for penetration rate. Must be an odd integer. Value of 1 will plot raw penetration rate
+number_units = 10 # number of units to attempt to read from the screenlog (default 10)
+pi = 3.14159265359
+epoch = dt.datetime(1899, 12, 30)
+workingdir = 'C:/Users/Geo/Desktop/TTplot/'
+settings = 'Z:/IMDH App Settings/TTplot/'
+if not os.path.exists(settings):
+    settings = 'C:/Users/Geo/Documents/Python Scripts/TTplot/backup settings/'
+gravels = pd.read_csv(settings + 'Gravels.csv')
+gravels = gravels['GravelUnits'].values.tolist()
+# --- if the folder doesn't exist, create a folder to export plots into
+if not os.path.exists('plots'):
+    plots = os.mkdir('plots')
+
+url = "file:///Z:/Letterheads/IMDSA.png"
+source = ColumnDataSource(dict(
+url = [url],
+x1  = np.linspace(50, 50, 1),
+y1  = np.linspace(90, 90, 1),
+w1  = np.linspace(50, 50, 1),
+h1  = np.linspace(50.3*0.35, 50.30*0.35, 1), 
+))
+logo = ImageURL(url="url", x="x1", y="y1", w='w1', h="h1", anchor="center")
+
+def check_dir():
+# --- check all files in directory
+    tooltrendlist = []
+    for file in os.listdir():
+        if "Screenlog" in file:
+            screenlogfile = file
+        elif '.xlsx' in file:
+            tooltrendlist.append(file[:-5])
+        # --- if anything else, ignore
+        else:
+            pass
+    return screenlogfile, tooltrendlist
+
+def read_screenlog(screenlogfile):
+    sl = pd.read_excel(
+        screenlogfile, 
+        engine='pyxlsb', usecols=[
+            'Sample_ID',
+            'Concession',
+            'Feature',
+            'TS_Act',
+            'WD_act',
+            'Start_Date',
+            'Start_Time',
+            'End_Time',
+            'E_actual',
+            'N_actual',
+            'Tool',
+            'Unit_1', 'm1',
+            'Unit_2', 'm2', 
+            'Unit_3', 'm3',
+            'Unit_4', 'm4',
+            'Unit_5', 'm5',
+            'Unit_6', 'm6',
+            'Unit_7', 'm7',
+            'Unit_8', 'm8',
+            'Unit_9', 'm9',
+            'Unit_10', 'm10'
+            ])
+    # --- trim screenlog dataframe to only contain samples for which tool trend files are present
+    trim = sl.Sample_ID.isin(tooltrendlist)
+    sl = sl[trim]
+    sl['Start_Date'] = pd.TimedeltaIndex(sl['Start_Date'], unit = 'd') + epoch
+    sl['Start_Time'] = pd.TimedeltaIndex(sl['Start_Time'], unit = 'd') + epoch
+    sl['End_Time'] = pd.TimedeltaIndex(sl['End_Time'], unit = 'd') + epoch
+    return sl
+
+def read_holedata(filename): # --- extract tool trend data from tool trend file
+    tooltrend = pd.read_excel(
+        filename + '.xlsx', 
+        sheet_name='HoleData', 
+        skiprows=1, 
+        usecols=[
+            'Actual Drill Torque\nKN*m', 
+            'Tower Feed Setpoint\n%',
+            'Drill Depth\nmm',
+            'Relative Time\nhh:mm:ss',
+            'Pitch\n°',
+            'Roll\n°',
+            'Rack Drive Lowering\nKN',
+            'Feed Result\nmm/min',
+            'Swivel RPM\nrpm'
+    ])
+    depth = tooltrend['Drill Depth\nmm']
+    maxdepth = depth.max()
+    maxdepthindex = (
+        tooltrend[tooltrend['Drill Depth\nmm'] == maxdepth].index.values[-1])
+    tooltrend = tooltrend[tooltrend['Drill Depth\nmm'] >= 0]
+    tooltrend = tooltrend[tooltrend.index <= maxdepthindex]
+    if moving_average > 1:
+        tooltrend.reset_index(inplace=True)
+        buff = int(moving_average / 2)
+        speed = []
+        for i in range(buff):
+            speed.append(tooltrend.at[i, 'Feed Result\nmm/min'])
+        for i in range(buff,len(tooltrend) - buff):
+            rmean = tooltrend.loc[i-buff:i+buff,'Feed Result\nmm/min'].sum() / moving_average
+            speed.append(rmean)
+        for i in range(buff):
+            speed.append(tooltrend.at[len(tooltrend)-1, 'Feed Result\nmm/min'])
+        tooltrend['Penetration Rate\nmm/min'] = speed
+    else:
+        tooltrend['Penetration Rate\nmm/min'] = tooltrend['Feed Result\nmm/min']
+
+    tooltrend = tooltrend[tooltrend['Feed Result\nmm/min'] > 0]
+    tooltrend = tooltrend[tooltrend['Tower Feed Setpoint\n%'] <= 100]
+    (depth, drilldepth, torque, towerfeed, time, pitch, roll, force, mse, penrate, swivel, penratemm) = \
+        ([], [], [], [], [], [], [], [], [], [], [], [])
+    (h1, m1, s1) = str(tooltrend['Relative Time\nhh:mm:ss'].iloc[0]).split(':')
+    result1 = (int(h1) * 60) + (int(m1)) + (int(s1) / 60)
+    for i, tt in tooltrend.iterrows():
+        drilldepth.append(tt['Drill Depth\nmm'].iloc[i])
+        depth.append(tt['Drill Depth\nmm'].iloc[i] + (toolsink))
+        torque.append(tt['Actual Drill Torque\nKN*m'].iloc[i])
+        towerfeed.append(tt['Tower Feed Setpoint\n%'].iloc[i])
+        pitch.append(tt['Pitch\n°'].iloc[i])
+        roll.append(tt['Roll\n°'].iloc[i])
+        force.append(tt['Rack Drive Lowering\nKN'].iloc[i])
+        swivel.append(tt['Swivel RPM\nrpm'].iloc[i])
+        penrate.append(tt['Feed Result\nmm/min'].iloc[i] / 1000) # speed value used in MSE calculation
+        mse.append(((force[i] / 5) + (0.4*pi)*(swivel[i]*torque[i]/(penrate[i])))/1000)
+        penratemm.append(tt['Penetration Rate\nmm/min'].iloc[i]) # speed value plotted 
+        t = str(tt['Relative Time\nhh:mm:ss'].iloc[i])
+        (h, m, s) = t.split(':')
+        result = (int(h) * 60) + (int(m)) + (int(s) / 60)
+        time.append(result - result1)
+    return depth, drilldepth, torque, towerfeed, time, pitch, roll, force, mse, penrate, swivel, penratemm #12 items
+
+def plot_force_torque(drilldepth, torque, force):
+    # --- generate a plot of tool trends versus drill depth
+    p1 = figure(
+        x_axis_label = 'Torque (kNm)',
+        y_axis_label = 'Drill Depth (mm)',
+        plot_width = 500,
+    )
+    p1.outline_line_color = 'black'
+    p1.outline_line_width = 1
+    p1.line(torque, drilldepth, line_width = 2, color = 'red', legend_label = 'Torque')
+    p1.y_range = Range1d(max(drilldepth), 0)
+    p1.x_range = Range1d(0, max(torque) + 25)
+    p1.extra_x_ranges = {'force' : Range1d(start = min(force), end = max(force)+ 25)}
+    p1.line(force, drilldepth, line_width = 2, color = 'blue', x_range_name = 'force', legend_label = "Force")
+    p1.add_layout(LinearAxis(x_range_name = 'force', axis_label = 'Force (kN)'), 'above')
+    p1.toolbar_location = None
+    p1.legend.location = 'top_left'
+    return p1
+
+def plot_units(depth, time, toolsink, towerfeed):
+    # --- generate a plot of tool sink, units and total depth
+    p2 = figure(
+        x_axis_label = 'Total Drill Time (min)',
+        y_axis_label = 'Total Depth (mm)',
+        plot_width = 300
+    )
+    p2.toolbar_location = None
+    p2.y_range = Range1d(max(depth), 0)
+    p2.x_range = Range1d(0, max(time))
+    p2.multi_polygons(
+        fill_color = (242,242,242),
+        line_color = 'black',
+        line_width = 1,
+        line_alpha = 1,
+        xs=[[[[0, 0, max(time), max(time)]]]],
+        ys=[[[[(toolsink), 0, 0, (toolsink)]]]],
+        hatch_pattern = '\\',
+        hatch_color = 'lightgrey',
+        hatch_weight = 0.5,
+        hatch_scale = 10,
+        legend_label = 'Tool Sink'
+    )
+    p2.multi_polygons(
+        fill_alpha = 0,
+        line_color = 'black',
+        line_width = 1,
+        line_alpha = 1,
+        xs=[[[[0, 0, max(time), max(time)]]]],
+        ys=[[[[max(depth), min(depth), min(depth), max(depth)]]]],
+    )
+    p2.line(time, depth, color = 'black', line_width = 2, legend_label = "Drill Time")
+    p2.extra_x_ranges = {'tower' : Range1d(start = 0, end = 104)}
+    p2.line(towerfeed, depth, 
+        line_width = 2, 
+        color = 'black', 
+        x_range_name = 'tower', 
+        line_dash = 'dashed', 
+        legend_label = "Tower Feed")
+    p2.add_layout(LinearAxis(x_range_name = 'tower', axis_label = 'Tower Feed Setpoint (%)'), 'above')
+    return p2
+
+def plot_mse(mse, drilldepth):
+    # --- generate a plot that displays mechanical specific energy
+    p3 = figure(
+        x_axis_label = 'Mechanical Specific Energy (MPa)',
+        y_axis_label = 'Drill Depth (mm)',
+        plot_width = 300,
+    )
+    p3.outline_line_color = 'black'
+    p3.outline_line_width = 1
+    p3.line(mse, drilldepth, line_width = 2, color = 'orange')
+    p3.y_range = Range1d(max(drilldepth), 0)
+    p3.x_range = Range1d(0, max(mse))
+    p3.toolbar_location = None
+    return p3
+
+def plot_info(info, pitch, roll):
+    # --- generate a metadata table
+    p4 = figure(
+        background_fill_color = 'white',
+        plot_width = 350,
+        title = ('SAMPLE DRILL REPORT'),
+    )
+    p4.min_border_top = 75
+    p4.min_border_left = 55
+    p4.title.text_font_style = 'bold'
+    p4.title.text_font_size = '25px'
+    p4.title.align = 'center'
+    p4.title.text_font_style = 'bold'
+    p4.y_range = Range1d(0, 100)
+    p4.x_range = Range1d(0, 100)
+    p4.toolbar_location = None
+    p4.outline_line_color = 'black'
+    p4.outline_line_width = 1
+    p4.xgrid.grid_line_color = None
+    p4.ygrid.grid_line_color = None
+    p4.xaxis.visible = False
+    p4.yaxis.visible = False
+    xlocs = [20, 60, 20, 60, 20, 60, 20, 60, 20, 60, 20, 60, 20, 60,\
+        20, 60, 20, 60, 20, 60, 20, 60, 20, 60, 20, 60, 20, 60]
+    ylocs = [70, 70, 65, 65, 60, 60, 55, 55, 50, 50, 45, 45, 37, 37,\
+        32, 32, 27, 27, 22, 22, 17, 17, 12, 12, 7, 7, 2, 2]
+    reqtext = [
+        'Sample ID:',
+        info[0],
+        'Concession:',
+        info[1],
+        'Feature:',
+        info[2],
+        'Date Drilled:',
+        str(info[3].date()),
+        'Easting:',
+        str(info[4]),
+        'Northing:',
+        str(info[5]),
+        'Start Time:',
+        str(info[6].time().strftime('%H:%M')),
+        'Stop Time:',
+        str(info[7].time().strftime('%H:%M')),
+        'Tool:',
+        info[8],
+        'Water Depth:',
+        str(int(info[9])) + ' m',
+        'Max Pitch:',
+        str(round(max(pitch), 2)) + '°',
+        'Max Roll:',
+        str(round(max(roll), 2)) + '°',
+        'Average Pitch:',
+        str(round(pitch.mean(), 2)) + '°',
+        'Average Roll:',
+        str(round(roll.mean(), 2)) + '°',
+        ]
+    for i, entry in enumerate(xlocs):
+        if xlocs[i] == 20:
+            fstyle = 'bold'
+        else:
+            fstyle = None
+        p4.add_layout(Label(
+            x = xlocs[i], 
+            y = ylocs[i], 
+            text = reqtext[i], 
+            text_color = 'black', 
+            text_font_size = '12px', 
+            text_font_style = fstyle))
+        p4.add_layout(Label(
+            x = 50, 
+            y = 75, 
+            text = 'THE EXPLORER', 
+            text_color = 'black', 
+            text_font_size = '20px', 
+            text_align = 'center'))
+    p4.add_glyph(source, logo)
+    return p4
+
+def plot_speed(depth, penratemm, toolsink):
+    # --- generate a plot that displays drill penetration rate
+    p5 = figure(
+        x_axis_type = None,
+        x_axis_label = 'Penetration Rate (mm/min)',
+        y_axis_label = 'Total Depth (mm)',
+        plot_width = 150,
+    )
+    ticker = SingleIntervalTicker(interval = 100, num_minor_ticks = 5)
+    xaxis = LinearAxis(ticker = ticker)
+    p5.add_layout(xaxis, 'below')
+    p5.xaxis.axis_label = 'Penetration (mm/min)'
+    p5.outline_line_color = 'black'
+    p5.outline_line_width = 1
+    p5.line(penratemm, depth, line_width = 2, color = 'green')
+    p5.y_range = Range1d(max(depth), 0)
+    p5.x_range = Range1d(0, max(penratemm))
+    p5.toolbar_location = None
+    p5.multi_polygons(
+        fill_color = (242,242,242),
+        line_color = 'black',
+        line_width = 1,
+        line_alpha = 1,
+        xs=[[[[0, 0, max(penratemm), max(penratemm)]]]],
+        ys=[[[[(toolsink), 0, 0, (toolsink)]]]],
+        hatch_pattern = '\\',
+        hatch_color = 'lightgrey',
+        hatch_weight = 0.5,
+        hatch_scale = 10,
+    )
+    return p5
+
+# --- run a loop to create a dataframe of each sample
+def create_plot(ttfile):
+    # --- isolate the screenlog data of specific sample
+    data = screenlog.loc[screenlog['Sample_ID'] == ttfile]
+    units = []
+    lines = []
+    for u in range(1,number_units + 1): # attempt to read n number of units
+        m = 'm' + str(u)
+        unit = 'Unit_' + str(u)
+        if pd.notnull(data[unit].iloc[0]):
+            lines.append(int((data[m].iloc[0]) * 1000))
+            units.append(data[unit].iloc[0])
+    toolsink = (data['TS_Act'].iloc[0] * 1000)
+    sampleid = data['Sample_ID'].iloc[0]
+    concession = data['Concession'].iloc[0]
+    feature = data['Feature'].iloc[0]
+    datedrilled = data['Start_Date'].iloc[0]
+    easting = data['E_actual'].iloc[0]
+    northing = data['N_actual'].iloc[0]
+    timestart = data['Start_Time'].iloc[0]
+    timeend = data['End_Time'].iloc[0]
+    tool = data['Tool'].iloc[0]
+    waterdepth = data['WD_act'].iloc[0]
+    #lists of values from tooltrend file (12 items):
+    depth, drilldepth, torque, towerfeed, time, pitch, roll, force, mse, penrate, swivel, penratemm = read_holedata(ttfile)
+    info = [sampleid, concession, feature, datedrilled, easting, northing, timestart, timeend, tool, waterdepth, pitch, roll]
+    p1 = plot_force_torque(drilldepth, torque, force)
+    p2 = plot_units(depth, time, toolsink, towerfeed)
+    p3 = plot_mse(mse, drilldepth)
+    p4 = plot_info(info, pitch, roll)
+    p5 = plot_speed(depth, penratemm, toolsink)
+
+    # plot lines and units
+    for i, line in enumerate(lines):
+        if units[i] in gravels:
+            (text_col, text_style, layeralpha)  = ('teal', 'bold', 0.1)
+        else:
+            (text_col, text_style, layeralpha)  = ('grey', 'italic', 0)
+        linelocationp1 = (sum(lines[0:i+1]))
+        linelocationp2 = (toolsink + sum(lines[0:i+1]))
+        labellocationp1 = linelocationp1 - 0.5*lines[i]
+        labellocationp2 = linelocationp2 - 0.5*lines[i]
+        p1.multi_polygons(
+        fill_color = 'teal',
+        line_alpha = 0,
+        fill_alpha = layeralpha,
+        xs=[[[[0, 0, max(torque) + 25, max(torque) + 25]]]],
+        ys=[[[[linelocationp1, (sum(lines[0:i])), (sum(lines[0:i])), linelocationp1]]]],
+        )
+        p2.multi_polygons(
+        fill_color = 'teal',
+        line_alpha = 0,
+        fill_alpha = layeralpha,
+        xs=[[[[0, 0, max(time), max(time)]]]],
+        ys=[[[[linelocationp2, (sum(lines[0:i])) + toolsink, (sum(lines[0:i])) + toolsink, linelocationp2]]]],
+        )
+        p5.multi_polygons(
+        fill_color = 'teal',
+        line_alpha = 0,
+        fill_alpha = layeralpha,
+        xs=[[[[0, 0, max(penratemm), max(penratemm)]]]],
+        ys=[[[[linelocationp2, (sum(lines[0:i])) + toolsink, (sum(lines[0:i])) + toolsink, linelocationp2]]]],
+        )
+        p3.multi_polygons(
+        fill_color = 'teal',
+        line_alpha = 0,
+        fill_alpha = layeralpha,
+        xs=[[[[0, 0, max(mse) + 25, max(mse) + 25]]]],
+        ys=[[[[linelocationp1, (sum(lines[0:i])), (sum(lines[0:i])), linelocationp1]]]],
+        )
+        p1.add_layout(Span(location = linelocationp1, dimension = 'width', line_color = 'black', line_dash = 'dashed'))
+        p2.add_layout(Span(location = linelocationp2, dimension = 'width', line_color = 'black', line_dash = 'dashed'))
+        p3.add_layout(Span(location = linelocationp1, dimension = 'width', line_color = 'black', line_dash = 'dashed'))
+        p5.add_layout(Span(location = linelocationp2, dimension = 'width', line_color = 'black', line_dash = 'dashed'))
+        p1.add_layout(Label(x = 0.9*max(torque), y = labellocationp1, text = units[i], text_color = text_col, text_font_style = text_style, text_align = 'left', text_baseline = 'middle'))
+        p2.add_layout(Label(x = max(time)/2, y = labellocationp2, text = units[i], text_color = text_col, text_font_style = text_style, text_align = 'center', text_baseline = 'middle'))
+        p2.legend.location = 'top_center'
+
+    # --- combine the three plots in one layout
+    allplots = layout([[p4, p5, p2], [p1, p3]])
+    allplots.width = 850
+    allplots.height = 1225
+    filename = 'plots/ttplot_' + file + ".png"
+    export_png(allplots, filename)
+    success = 'Successfully exported as:' + filename
+    return success
+
+print('TTPLOT SAMPLE TOOLTREND PLOT version 1.2.1')
+print('Reading files . . .')
+screenlogfile, tooltrendlist = check_dir()
+print('Reading screenlog . . .')
+screenlog = read_screenlog(screenlogfile)
+for file in tooltrendlist:
+    print('Plotting',file)
+    print(create_plot(file))
+print('[FINISHED]')
+
+#for file in tooltrendlist:
+#    os.remove(file + '.xlsx')
+#for file in os.listdir():
+#    if 'Screenlog' in file:
+#        os.remove(file)
+
+"""
+FUNCTIONS:
+check files
+read screenlog
+read trends + 
+    plot 1 Force/Torque
+    plot 2 tool sink, units and total depth
+    plot 3 mechanical specific energy
+    plot 4 info
+    plot 5 Penrate
+export plots
+remove files
+"""

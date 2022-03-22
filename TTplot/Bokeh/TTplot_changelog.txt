@@ -1,0 +1,36 @@
+TTplot_v1.2.6 (2021-02-19)
+-handle ABD (by skipping)
+-plotcounter
+
+TTplot_v1.2.5 (2021-02-09)
+-CURRENT WORKING VERSION
+-ML36E features read as float: fixed
+-IMDSA pic refd as Z:/Letterheads: fixed, now in img folder with .py
+-toolsink < 0 will be plotted as toolsink = 0
+	will need to deduct TS from Unit1...
+
+TTplot_v1.2.4 (2020-11-21)
+-generate 1 layout, as starting point for each plot (template)
+-accidentally move F&T legend to the right
+-show timer
+-improve xlocs ylocs
+-move constants out of loops
+
+TTplot_v1.2.3 (2020-11-21)
+- in create_plot, change:
+	add .iloc[0]
+	remove 14 iloc[0]s from following lines
+-add successlog
+-add heading
+-remove bokeh warnings
+
+TTplot_v1.2.2 (2020-11-21)
+-remove .iloc[] from tooltrend.iterrows()
+-calculate total depth all at once
+-calculate mse from correct values
+
+TTplot_v1.2.1 (2020-11-18)
+-gravels from csv
+-functions for functions
+
+TTplot_v1.2.0
